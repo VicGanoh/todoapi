@@ -24,3 +24,5 @@ The todo api has features like:
 * adding a user profile image to user's profile
 
 ## Illustrations
+![First Sample](./src/main/resources/images/todoapi_sample.png)
+![Second Sample](./src/main/resources/images/todoapi_sample2.png)
