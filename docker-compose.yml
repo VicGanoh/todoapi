@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  postgres-db:
+    image: postgres:9.6
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oblongata
+      POSTGRES_DB: todoapi
+    ports:
+      - '5432:5432'
+
+  zipkin-server:
+    image: openzipkin/zipkin
+    container_name: zipkin_server
+    restart: always
+    ports:
+      - '9411:9411'
+
+  todo-api:
+    container_name: todo_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '9000:9000'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/todoapi
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: oblongata
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - postgres-db
+      - zipkin-server

@@ -1,0 +1,124 @@
+= Todo API
+Author Name Victor Tetteh-Ganoh Ahumah
+v1.0
+:toc:
+
+Todo List API with user authentication and CRUD functionality.
+
+TIP: _Copy and run curl commands in your terminal to see an endpoint in action_
+
+== User
+User routes with CRUD functionalities.
+
+== POST
+=== Register User
+Register new user and save it to the database
+
+operation::authentication-controller/signup[snippets='http-request,curl-request,request-fields,http-response,response-fields']
+
+== POST
+=== Sign In
+User signs in to get authenticated
+
+==== HTTP Request
+include::{snippets}/authentication-controller/signin/http-request.adoc[]
+
+==== Curl Request
+include::{snippets}/authentication-controller/signin/curl-request.adoc[]
+
+==== Request Fields
+include::{snippets}/authentication-controller/signin/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/authentication-controller/signin/http-response.adoc[]
+
+=== HTTP Response Fields
+include::{snippets}/authentication-controller/signin/response-fields.adoc[]
+
+== GET
+
+=== Get all users
+Fetch all users from the database
+
+==== HTTP Request
+include::{snippets}/user-controller/get-all-users/http-request.adoc[]
+
+==== Curl Request
+include::{snippets}/user-controller/get-all-users/curl-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-controller/get-all-users/http-response.adoc[]
+
+=== HTTP Response Fields
+include::{snippets}/user-controller/get-all-users/response-fields.adoc[]
+
+== GET
+
+=== Get user by Id
+Fetch a user from the database
+
+==== HTTP Request
+include::{snippets}/user-controller/get-user-by-id/http-request.adoc[]
+
+==== Curl Request
+include::{snippets}/user-controller/get-user-by-id/curl-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-controller/get-user-by-id/http-response.adoc[]
+
+=== HTTP Response Fields
+include::{snippets}/user-controller/get-user-by-id/response-fields.adoc[]
+
+== UPDATE
+
+=== Update User
+Update logged in user's profile and save it to database
+
+==== HTTP Request
+include::{snippets}/user-controller/update-user/http-request.adoc[]
+
+==== Curl Request
+include::{snippets}/user-controller/update-user/curl-request.adoc[]
+
+==== HTTP Request Fields
+include::{snippets}/user-controller/update-user/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-controller/get-user-by-id/http-response.adoc[]
+
+=== HTTP Response Fields
+include::{snippets}/user-controller/get-user-by-id/response-fields.adoc[]
+
+
+== POST
+
+=== Upload Image
+Upload image profile by authenticated user
+
+==== Curl Request
+include::{snippets}/user-controller/upload-image/curl-request.adoc[]
+
+==== HTTP Request Fields
+include::{snippets}/user-controller/upload-image/request-parts.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-controller/upload-image/http-response.adoc[]
+
+=== HTTP Response Fields
+include::{snippets}/user-controller/upload-image/response-fields.adoc[]
+
+== POST
+=== Create/Add a new task
+operation::task-controller/create-task[snippets='curl-request,http-request,request-fields,http-response,response-fields']
+
+== GET
+=== Get a task by Id
+operation::task-controller/get-task-by-id[snippets='curl-request,http-response,response-fields']
+
+== GET
+=== Get all tasks
+operation::task-controller/get-all-tasks[snippets='curl-request,http-request,http-response,response-fields']
+
+== UPDATE
+=== Update task
+operation::task-controller/update-task[snippets='curl-request,http-request,request-fields,http-response,response-fields']
