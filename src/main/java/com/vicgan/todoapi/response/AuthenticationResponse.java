@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 public class AuthenticationResponse implements Serializable {
 
-    private String token;
+    private String access;
 
     public AuthenticationResponse() {
     }
 
-    private AuthenticationResponse(String token) {
-        this.token = token;
+    private AuthenticationResponse(String access) {
+        this.access = access;
     }
 
     public String getToken() {
-        return token;
+        return access;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setToken(String access) {
+        this.access = access;
     }
 }

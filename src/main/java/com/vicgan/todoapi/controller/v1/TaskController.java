@@ -7,6 +7,7 @@ import com.vicgan.todoapi.entities.Task;
 import com.vicgan.todoapi.queryspec.ListTaskSpec;
 import com.vicgan.todoapi.response.ApiResponse;
 import com.vicgan.todoapi.services.impl.TaskServiceImpl;
+import com.vicgan.todoapi.utils.IsUser;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +37,7 @@ public class TaskController {
     private TaskServiceImpl taskService;
 
     @PostMapping
+    @IsUser
     public ApiResponse<TaskDto> createTask(@Valid @RequestBody CreateTaskDto createTaskDto, Authentication authentication){
         String userEmail = authentication.getName();
         logger.info("HTTP Request: createTask(): {}", createTaskDto);
@@ -45,6 +48,7 @@ public class TaskController {
     }
 
     @GetMapping(path = "/{id}")
+    @IsUser
     public ApiResponse<TaskDto> getTaskById(@PathVariable String id){
         logger.info("HTTP Request: getTaskById(): {}", id);
 
@@ -55,6 +59,7 @@ public class TaskController {
     }
 
     @GetMapping("/all")
+    @IsUser
     public ApiResponse<List<TaskDto>> getAllTasks(ListTaskSpec taskSpec, Pageable pageable){
         logger.info("HTTP Request: getAllTasks()");
         pageable = PageRequest.of(0, 5);

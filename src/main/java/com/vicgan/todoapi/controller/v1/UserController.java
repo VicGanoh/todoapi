@@ -8,6 +8,7 @@ import com.vicgan.todoapi.response.ApiResponse;
 import com.vicgan.todoapi.response.ImageResponse;
 import com.vicgan.todoapi.services.impl.ImageServiceImpl;
 import com.vicgan.todoapi.services.impl.UserServiceImpl;
+import com.vicgan.todoapi.utils.IsAdmin;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,16 +43,22 @@ public class UserController {
     private ImageServiceImpl imageService;
 
     @GetMapping("/all")
+    @IsAdmin
     public ApiResponse<List<UserDto>>  getAllUsers(ListUserSpec userSpec, Pageable pageable){
-        logger.info("HTTP Request: getAllUsers inside UserController...");
-        pageable = PageRequest.of(0, 5);
-        List<UserDto> dtoResponse = userService.getAllUsers(userSpec, pageable);
+        try{
+            logger.info("HTTP Request: getAllUsers inside UserController...");
+            pageable = PageRequest.of(0, 5);
+            List<UserDto> dtoResponse = userService.getAllUsers(userSpec, pageable);
 
-        logger.info("HTTP Response: getAllUsers: {}", dtoResponse);
-        return new ApiResponse<>(dtoResponse, HttpStatus.OK);
+            logger.info("HTTP Response: getAllUsers: {}", dtoResponse);
+            return new ApiResponse<>(dtoResponse, HttpStatus.OK);
+        }catch (AccessDeniedException e) {
+            throw new AccessDeniedException("You don't have permission to access this resource");
+        }
     }
 
     @GetMapping(path = "/{id}")
+    @IsAdmin
     public ApiResponse<UserDto> getUserById(@Valid @PathVariable String id){
         logger.info("HTTP Request: getUserById: {}", id);
         UserDto dtoResponse = userService.getUserById(id);
