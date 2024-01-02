@@ -7,6 +7,7 @@ import com.vicgan.todoapi.entities.Task;
 import com.vicgan.todoapi.queryspec.ListTaskSpec;
 import com.vicgan.todoapi.response.ApiResponse;
 import com.vicgan.todoapi.services.impl.TaskServiceImpl;
+import com.vicgan.todoapi.utils.IsAdminOrUser;
 import com.vicgan.todoapi.utils.IsUser;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -48,7 +49,7 @@ public class TaskController {
     }
 
     @GetMapping(path = "/{id}")
-    @IsUser
+    @IsAdminOrUser
     public ApiResponse<TaskDto> getTaskById(@PathVariable String id){
         logger.info("HTTP Request: getTaskById(): {}", id);
 
@@ -59,7 +60,7 @@ public class TaskController {
     }
 
     @GetMapping("/all")
-    @IsUser
+    @IsAdminOrUser
     public ApiResponse<List<TaskDto>> getAllTasks(ListTaskSpec taskSpec, Pageable pageable){
         logger.info("HTTP Request: getAllTasks()");
         pageable = PageRequest.of(0, 5);
@@ -73,6 +74,7 @@ public class TaskController {
     }
 
     @PutMapping
+    @IsUser
     public ApiResponse<TaskDto> updateTask(@RequestBody UpdateTaskDto updateTaskDto, Authentication authentication){
         logger.info("HTTP Request: updateTaskById(): {}", updateTaskDto);
         String userEmail = authentication.getName();

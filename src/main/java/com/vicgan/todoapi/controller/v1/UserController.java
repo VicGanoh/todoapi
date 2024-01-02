@@ -9,6 +9,8 @@ import com.vicgan.todoapi.response.ImageResponse;
 import com.vicgan.todoapi.services.impl.ImageServiceImpl;
 import com.vicgan.todoapi.services.impl.UserServiceImpl;
 import com.vicgan.todoapi.utils.IsAdmin;
+import com.vicgan.todoapi.utils.IsAdminOrUser;
+import com.vicgan.todoapi.utils.IsUser;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -68,6 +70,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/image/{name}")
+    @IsUser
     public ApiResponse<InputStreamResource> getImage(@PathVariable("name") String name){
         logger.info("HTTP Request: getImage(): {}", name);
         ImageDto image = imageService.getImage(name);
@@ -81,6 +84,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/upload/image")
+    @IsAdminOrUser
     public ApiResponse<ImageResponse> uploadImage(@Valid @RequestPart(name = "image") MultipartFile file, Authentication authentication) throws IOException {
         String userEmail = authentication.getName();
 
@@ -91,6 +95,7 @@ public class UserController {
 
 
     @PutMapping
+    @IsAdminOrUser
     public ApiResponse<UserDto> updateUser(@Valid @RequestBody UpdateUserProfileDto updateUserProfileDto){
         logger.info("HTTP Request: updateUser: {}", updateUserProfileDto);
         UserDto dtoResponse = userService.updateUserProfile(updateUserProfileDto);
@@ -100,6 +105,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/image/{id}")
+    @IsAdminOrUser
     public ApiResponse<?> deleteImage(@PathVariable String id){
         imageService.deleteImageById(id);
         return new ApiResponse<>(HttpStatus.OK);
